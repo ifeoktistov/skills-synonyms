@@ -13,7 +13,7 @@ class Work {
 
                 if ($terms['success']) {
                     $result .= 'Terms: ';
-                    $result .= implode(', ',$terms['data']);
+                    $result .= implode('; ',$terms['data']);
                 }
                 else {
                     $result .= 'Internal error =( <br/>';
@@ -21,7 +21,56 @@ class Work {
                 }
                 break;
 
+            case 'list':
+                $list = $_POST['list'];
+                $list = explode("\n", $list);
+
+                $list_words = array();
+
+                foreach($list as $word){
+                    if (!$word = trim($word)) {
+                        continue;
+                    }
+                    $api_result = self::getAPIResult($word);
+                    $api_result['word'] = $word;
+                    $list_words[] = $api_result;
+                }
+
+                $result .= '<table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Input</th>
+                  <th>Result</th>
+                  <th>Terms</th>
+                </tr>
+              </thead>
+              <tbody>';
+
+                foreach($list_words as $word){
+                    $result .= '
+                <tr>
+                  <td>'.$word['word'].'</td>';
+
+                    if ($word['success']) {
+                        $result .= '<td>success</td>';
+                        $result .= '<td>'.implode('; ',$word['data']).'</td>';
+                    }
+                    else {
+                        $result .= '<td>Error.</br> Message:'.$word['error_message'].'</td>';
+                        $result .= '<td> - </td>';
+                    }
+
+                }
+
+
+                $result .= '
+              </tbody>
+            </table>';
+
+                break;
+
             default:
+                $result .= 'Not supported type';
                 break;
         }
 

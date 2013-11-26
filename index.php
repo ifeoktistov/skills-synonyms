@@ -32,6 +32,19 @@ include "work.php";
         </div>
     </div>
 
+    <div class="navbar">
+        <div class="navbar-inner">
+            <form class="navbar-form form-inline" method="post">
+                <label class="checkbox inline">List:</label><br/>
+                <textarea rows="3" name="list"></textarea>
+                <input type="hidden" name="type" value="list"><br/>
+                <button type="submit" class="btn">Get synonyms</button>
+            </form>
+        </div>
+    </div>
+
+
+
 </div>
 
 <script src="http://code.jquery.com/jquery.js"></script>
